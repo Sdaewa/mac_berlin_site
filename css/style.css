@@ -363,7 +363,6 @@ button:focus {
 -------------------------------------------------------------------*/
 
 .qt-background {
-  background: url(../images/qt-bg.jpg) no-repeat;
   background-size: cover;
   padding: 100px 0;
   background-attachment: fixed;
@@ -408,6 +407,18 @@ button:focus {
   margin: auto; /* Centers the container within its parent */
 }
 
+#pdf-container-en {
+  width: 100%; /* Ensures the container takes up the full width of its parent */
+  max-width: 800px; /* Adjusts max-width for larger screens to avoid overly wide canvases */
+  height: 800px; /* Adjust height as needed */
+  overflow-y: auto; /* Adds vertical scroll */
+  display: flex; /* Enables flex layout within the container */
+  flex-direction: column; /* Stacks the canvas elements vertically */
+  align-items: center; /* Centers the canvas elements horizontally */
+  justify-content: flex-start; /* Aligns content to the top */
+  margin: auto; /* Centers the container within its parent */
+}
+
 canvas {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
   margin-bottom: 20px; /* Adds space between each page */
@@ -427,6 +438,21 @@ canvas {
 }
 
 #pdf-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+#pdf-container-en::-webkit-scrollbar {
+  width: 10px;
+}
+
+#pdf-container-en::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#pdf-container-en::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+#pdf-container-en::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 

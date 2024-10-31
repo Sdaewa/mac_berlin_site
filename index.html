@@ -143,6 +143,17 @@
 				</div>
 			</div>
 			<div id="pdf-container" style="overflow-y: scroll; height: 800px;"></div>
+			<br>
+			<hr>
+			<br>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="heading-title text-center">
+						<h1><strong>Speisekarte english</strong></h1>
+					</div>
+				</div>
+			</div>
+			<div id="pdf-container-en" style="overflow-y: scroll; height: 800px;"></div>
 		</div>
 	</div>
 	<!-- End Menu -->
@@ -153,11 +164,12 @@
 		<h1>Öffnungszeiten</h1>
 		<p><span class="text-color">MONTAG :</span> 10:00 - 17:00</p>
 		<p><span class="text-color">DIENSTAG :</span> GESCHLOSSEN</p>
-		<p><span class="text-color">MITTWOCH :</span> 10:00 - 17:00</p>
+		<p><span class="text-color">MITTWOCH :</span> GESCHLOSSEN</p>
 		<p><span class="text-color">DONNERSTAG :</span> 10:00 - 17:00</p>
 		<p><span class="text-color">FREITAG :</span> 10:00 - 18:00</p>
 		<p><span class="text-color">SAMSTAG :</span> 10:00 - 18:00</p>
 		<p><span class="text-color">SONNTAG :</span> 10:00 - 18:00</p>
+		<p>Küche täglich bis 16:00 Uhr geöffnet</p>
 	</div>
 	<!-- End Opening Times -->
 
@@ -284,6 +296,7 @@
 	<script>
 		pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.worker.min.js';
 		var url = 'menu.pdf';
+		var urlEn = 'menu_en.pdf';
 
 		function renderPage(page) {
 			var scale = 1.5;
@@ -302,14 +315,33 @@
 			};
 			page.render(renderContext);
 		}
+		function renderPageEn(page) {
+			var scale = 1.5;
+			var viewport = page.getViewport({ scale: scale });
+			var container = document.getElementById('pdf-container-en');
+			var canvas = document.createElement('canvas');
+			var ctx = canvas.getContext('2d');
 
-		function renderPages(pdfDoc) {
+			canvas.height = viewport.height;
+			canvas.width = viewport.width;
+			container.appendChild(canvas);
+
+			var renderContext = {
+				canvasContext: ctx,
+				viewport: viewport
+			};
+			page.render(renderContext);
+		}
+
+		function renderPages(pdfDoc, renderFn) {
 			for (var num = 1; num <= pdfDoc.numPages; num++) {
-				pdfDoc.getPage(num).then(renderPage);
+				pdfDoc.getPage(num).then(renderFn);
 			}
 		}
 
-		pdfjsLib.getDocument(url).promise.then(renderPages);
+
+		pdfjsLib.getDocument(url).promise.then(page => renderPages(page, renderPage));
+		pdfjsLib.getDocument(urlEn).promise.then(page => renderPages(page, renderPageEn));
 	</script>
 
 </body>
